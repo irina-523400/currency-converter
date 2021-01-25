@@ -1,0 +1,10 @@
+.Select{
+  display: flex;
+  justify-content: center;
+  margin: 12px;
+
+  & select{
+    width: 200px;
+    height: 22px;
+  }
+}

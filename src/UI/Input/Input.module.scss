@@ -1,0 +1,19 @@
+.Input{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 12px;
+  position: relative;
+
+  input{
+    width: 200px;
+  }
+
+  span{
+    position: absolute;
+    top: 23px;
+    color: #f01f30;
+    font-size: 12px;
+    font-weight: bold;
+  }
+}

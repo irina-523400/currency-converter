@@ -1,0 +1,32 @@
+.Converter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #dcdcdc;
+  height: 710px;
+}
+
+.wrapper{
+  width: 500px;
+  background: #fff;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 10px;
+
+  & h1{
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: normal;
+  }
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 100px;
+}
+
+
