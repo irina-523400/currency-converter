@@ -1,24 +1,22 @@
-import s from './Input.module.scss';
+import classes from './Input.module.scss';
 
-const Input = props => {
-
-  const isInvalid = props => {
-    const number = Number(props.value);
-    return Number.isNaN(number) 
-  };
-
-  return (
-    <div className={s.Input}>
+const Input = ({
+  id,
+  value,
+  onChange,
+  isInvalid
+}) => {
+  return(
+    <div className={classes.Input}>
       <input
         type="text"
-        id={props.name}
-        value={props.value}
-        onChange={props.onChange}
+        id={id}
+        value={value}
+        onChange={onChange}
       />
-      { isInvalid(props) 
+      { isInvalid
         ? <span>Введите число</span>
         : null }
-
     </div>
   )
 };

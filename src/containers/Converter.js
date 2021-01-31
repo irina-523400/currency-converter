@@ -1,95 +1,102 @@
-import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { CURRENCY } from '../constants/CURRENCY';
-import {Input} from '../UI/Input/Input';
-import {Select} from '../UI/Select/Select';
-import s from './Converter.module.scss';
+import { Input } from '../UI/Input/Input';
+import { Select } from '../UI/Select/Select';
+import {
+  fetchRates,
+  setSelectValue,
+  convert,
+  inputValidation,
+  saveInput1Value,
+  saveInput2Value
+} from '../redux/actions/actionsConverter';
+import classes from './Converter.module.scss';
 
+function currencyConverter({
+  fetchRates,
+  setSelectValue,
+  convert,
+  inputValidation,
+  saveInput1Value,
+  saveInput2Value,
+  isInvalid,
+  input1,
+  input2 }) {
 
-function Converter() {
+  const selectId = ['from', 'to'];
 
-  const [inputControls, setInputControls] = useState({
-    input1: {
-      value: '',
-    },
-    input2: {
-      value: ''
-    },
-  });
-
-  const [selectControls, setSelectControls] = useState({
-    from: {
-      value: 'AUD',
-    },
-    to: {
-      value: 'AUD',
-    },
-  })
-
-  const inputChangeHandler = (value, name) => {
-    const controlsIsChange = { ...inputControls };
-    const inputControl = { ...inputControls[name] };
-    inputControl.value = value;
-
-    controlsIsChange[name] = inputControl;
-
-    setInputControls(controlsIsChange);
-
-    console.table(controlsIsChange);
+  const input1ChangeHandler = (event) => {
+    inputValidation(event.target.value);
+    saveInput1Value(event.target.value);
+    if (!isInvalid) {
+      convert(event.target.value)
+    }
   };
 
-  const renderInputs = () => Object.keys(inputControls).map((name, index) => {
-    const inputControl = inputControls[name];
-
-    return (
-        <Input
-          key={name + index}
-          name={name}
-          value={inputControl.value}
-          errorMessage={inputControl.errorMessage}
-          onChange={event => inputChangeHandler(event.target.value, name)}
-        />
-      )
-    });
-
-  const selectChangeHandler = (value, name) => {
-    const controlsIsChange = { ...selectControls };
-    const selectControl = { ...selectControls[name] };
-    selectControl.value = value;
-
-    controlsIsChange[name] = selectControl;
-
-    setSelectControls(controlsIsChange);
-
-    console.table(controlsIsChange)
+  const input2ChangeHandler = (event) => {
+    saveInput2Value(event.target.value)
   };
 
-  const renderSelect = () => Object.keys(selectControls).map((name, index) => {
+  const selectChangeHandler = (event) => {
+    setSelectValue(event.target.value, event.target.id);
+    convert(input1)
 
-    return (
-      <Select
-        key={name + index}
-        name={name}
-        onChange={event => selectChangeHandler(event.target.value, name)}
-        options={CURRENCY}
-      />
-    )
-  });
+    if (event.target.id === 'from') {
+      fetchRates(event.target.value)
+    }
+  };
 
   return (
-    <div className={s.Converter}>
-
-      <div className={s.wrapper}>
+    <div className={classes.Converter}>
+      <div className={classes.wrapper}>
         <h1>Currency Converter</h1>
-
-        <div className={s.content}>
-          {renderInputs()}
-          {renderSelect()}
+        <div className={classes.content}>
+          <Input
+            key="input1"
+            id="input1"
+            value={input1}
+            onChange={input1ChangeHandler}
+            isInvalid={isInvalid}
+          />
+          <Input
+            key="input2"
+            id="input2"
+            value={input2}
+            onChange={input2ChangeHandler}
+          />
+          {selectId.map((id, index) => {
+            return (
+              <Select
+                key={id + index}
+                id={id}
+                onChange={selectChangeHandler}
+                options={CURRENCY}
+                defaultValue={'DEFAULT'}
+              />
+            )
+          })}
         </div>
-
       </div>
-
     </div>
   )
 };
+
+const mapStateToProps = (state) => ({
+    input1: state.input1,
+    input2: state.input2,
+    selects: state.selects,
+    isInvalid: state.isInvalid,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchRates: value => dispatch(fetchRates(value)),
+    setSelectValue: (value, id) => dispatch(setSelectValue(value, id)),
+    convert: value => dispatch(convert(value)),
+    inputValidation: value => dispatch(inputValidation(value)),
+    saveInput1Value: value => dispatch(saveInput1Value(value)),
+    saveInput2Value: value => dispatch(saveInput2Value(value))
+});
+
+const Converter = connect(mapStateToProps, mapDispatchToProps)(currencyConverter);
 
 export {Converter};
