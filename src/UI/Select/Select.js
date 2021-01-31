@@ -6,8 +6,10 @@ const Select = props => {
     <div className={s.Select}>
       <select
         onChange={props.onChange}
-        id={props.name}
-      >
+        id={props.id}
+        defaultValue={props.defaultValue}
+      > 
+      <option value={props.defaultValue} disabled>Выберите валюту</option>
         { props.options.map((option, index) => {
           return (
             <option 
