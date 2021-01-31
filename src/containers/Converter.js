@@ -9,8 +9,8 @@ import {
   inputValidation, 
   saveInput1Value, 
   saveInput2Value
-} from '../store/actions/actionsConverter';
-import {store} from '../index';
+} from '../redux/actions/actionsConverter';
+import {store} from '../redux/store/store';
 import s from './Converter.module.scss';
 
 function Converter(props) {

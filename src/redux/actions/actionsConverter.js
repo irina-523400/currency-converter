@@ -6,7 +6,7 @@ import {
   INPUT1_VALUE_SAVE,
   INPUT2_VALUE_SAVE
 } from './actionTypes';
-import {store} from '../../index'
+import {store} from '../store/store';
 
 const URL = 'https://api.exchangeratesapi.io/latest?base=';
 
@@ -24,7 +24,6 @@ export function setSelectValue(value, id) {
     dispatch(saveSelects(selects))
   }
 };
-
 
 export function fetchRates(fromSelect) {
   return async dispatch => {
