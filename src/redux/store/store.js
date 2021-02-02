@@ -2,7 +2,6 @@ import {createStore, compose, applyMiddleware} from 'redux';
 import {rootReducer} from '../reducers/rootReducer';
 import thunk from 'redux-thunk';
 
-
 //Redux-devtools
 const composeEnhancers =
   typeof window === 'object' &&

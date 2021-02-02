@@ -1,5 +1,4 @@
-import './App.css';
-import Converter from './containers/Converter.js'
+import { Converter } from './containers/Converter.js'
 
 function App() {
   return (
@@ -7,4 +6,4 @@ function App() {
   );
 }
 
-export {App};
+export { App };

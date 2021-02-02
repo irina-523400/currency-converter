@@ -1,16 +1,21 @@
-import s from './Select.module.scss';
+import classes from './Select.module.scss';
 
-const Select = props => {
-
-  return (
-    <div className={s.Select}>
+const Select = ({
+  onChange,
+  id,
+  defaultValue,
+  options
+}) => {
+  return(
+    <div className={classes.Select}>
       <select
-        onChange={props.onChange}
-        id={props.id}
-        defaultValue={props.defaultValue}
+        onChange={onChange}
+        id={id}
+        defaultValue={defaultValue}
       > 
-      <option value={props.defaultValue} disabled>Выберите валюту</option>
-        { props.options.map((option, index) => {
+      <option value={defaultValue} disabled>Выберите валюту</option>
+        { options.map((option, index) => {
+          
           return (
             <option 
               key={option.value + index}

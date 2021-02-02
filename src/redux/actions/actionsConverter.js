@@ -6,18 +6,16 @@ import {
   INPUT1_VALUE_SAVE,
   INPUT2_VALUE_SAVE
 } from './actionTypes';
-import {store} from '../store/store';
+import { store } from '../store/store';
 
 const URL = 'https://api.exchangeratesapi.io/latest?base=';
 
-export function saveSelects(selects) {
-  return {
-    type: SELECT_VALUE_SAVE,
-    selects
-  }
-};
+export const saveSelects = (selects) => ({
+  type: SELECT_VALUE_SAVE,
+  selects
+});
 
-export function setSelectValue(value, id) {
+export const setSelectValue = (value, id) => {
   return (dispatch, getState) => {
     const selects = getState().selects;
     selects[id] = value;
@@ -25,64 +23,57 @@ export function setSelectValue(value, id) {
   }
 };
 
-export function fetchRates(fromSelect) {
+export const fetchRates = (fromSelect) => {
   return async dispatch => {
-
     try {
       const response = await fetch(URL + fromSelect);
       const results = await response.json();
       const baseRates = results.rates;
-
       dispatch(fetchRatesSuccess(baseRates));
       dispatch(convert(store.getState()['input1']))
-
     } catch (err) {
       dispatch(fetchRatesError(err))
     }
   }
 };
 
-export function fetchRatesSuccess(baseRates) {
-  return {
-    type: FETCH_RATES_SUCCESS,
-    baseRates
-  }
-};
+export const fetchRatesSuccess = (baseRates) => ({
+  type: FETCH_RATES_SUCCESS,
+  baseRates
+});
 
-export function fetchRatesError(err) {
-  return {
-    type: FETCH_RATES_ERROR,
-    error: err
-  }
-};
+export const fetchRatesError = (err) => ({
+  type: FETCH_RATES_ERROR,
+  error: err
+});
 
-export function saveInput1Value(value) {
-  return {
-    type: INPUT1_VALUE_SAVE,
-    value
-  }
-};
+export const saveInput1Value = (value) => ({
+  type: INPUT1_VALUE_SAVE,
+  value
+});
 
-export function inputValidation(value) {
+export const inputValidation = (value) => {
   const numValue = Number(value);
   const isInvalid = Number.isNaN(numValue);
+
   return {
     type: VALIDATION,
     isInvalid
   }
 };
 
-export function saveInput2Value(value) {
+export const saveInput2Value = (value) => {
   const result = store.getState()['input1'] === '' || Number.isNaN(value)
   ? ''
-  : value
+  : value;
+
   return {
     type: INPUT2_VALUE_SAVE,
     result
   }
 };
 
-export function convert(value) {
+export const convert = (value) => {
   return (dispatch, getState) => {
     const stateSelects = getState().selects;
     const stateRates = getState().baseRates;
