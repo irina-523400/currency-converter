@@ -1,3 +1,3 @@
 # Currency Converter 
 
-React + Redux & Git practice
+React + Redux practice
